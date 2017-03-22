@@ -1,0 +1,48 @@
+{
+  "name": "react-native-lock-manager",
+  "version": "0.0.1",
+  "description": "React native lock manager for Android platform",
+  "main": "LockManager.js",
+  "scripts": {
+    "start": "exit 1"
+  },
+  "browser": {
+    "net": "./LockManager.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rafaame/react-native-lock-manager"
+  },
+  "keywords": [
+    "react-component",
+    "reactnative",
+    "react-native",
+    "lock",
+    "keyguard",
+    "screen",
+    "android"
+  ],
+  "author": {
+    "name": "Rafael Andreatta",
+    "email": "eu@rafaa.me"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rafaame/react-native-lock-manager/issues"
+  },
+  "homepage": "https://github.com/rafaame/react-native-lock-manager",
+  "peerDependencies": {
+    "react-native": ">=0.40.0"
+  },
+  "dependencies": {
+    "base64-js": "0.0.8",
+    "buffer": "^5.0.0",
+    "events": "^1.0.2",
+    "process": "^0.11.9",
+    "util": "^0.10.3"
+  },
+  "devDependencies": {
+    "babel-eslint": "^4.1.6",
+    "eslint-plugin-react": "^3.11.3"
+  }
+}
