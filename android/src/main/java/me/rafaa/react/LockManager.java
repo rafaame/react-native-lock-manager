@@ -22,6 +22,8 @@ import android.app.Activity;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.view.WindowManager;
+import android.os.PowerManager;
+import android.net.wifi.WifiManager;
 
 public final class LockManager extends ReactContextBaseJavaModule {
     private static final String TAG = "LockManager";
@@ -47,9 +49,27 @@ public final class LockManager extends ReactContextBaseJavaModule {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    PowerManager powerManager = (PowerManager) mReactContext.getSystemService(Context.POWER_SERVICE);
+                    WifiManager wifiManager = (WifiManager) mReactContext.getSystemService(Context.WIFI_SERVICE);
+
+                    if (powerManager != null) {
+                        PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "com.vecinstrumentpanel");
+                        if (wakeLock != null && ! wakeLock.isHeld()) {
+                            wakeLock.acquire();
+                        }
+                    }
+
+                    if (wifiManager != null) {
+                        WifiManager.WifiLock wifiLock = wifiManager.createWifiLock(WifiManager.WIFI_MODE_FULL, TAG);
+                        if (wifiLock != null && ! wifiLock.isHeld()) {
+                            wifiLock.acquire();
+                        }
+                    }
+
                     int flags = WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | 
                         WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                         WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                        WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
                         WindowManager.LayoutParams.FLAG_FULLSCREEN |
                         WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
                     
