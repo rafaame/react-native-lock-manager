@@ -29,6 +29,8 @@ public final class LockManager extends ReactContextBaseJavaModule {
     private static final String TAG = "LockManager";
 
     private ReactContext mReactContext;
+    private PowerManager.WakeLock wakeLock;
+    private WifiManager.WifiLock wifiLock;
 
     public LockManager(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -53,14 +55,20 @@ public final class LockManager extends ReactContextBaseJavaModule {
                     WifiManager wifiManager = (WifiManager) mReactContext.getSystemService(Context.WIFI_SERVICE);
 
                     if (powerManager != null) {
-                        PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "com.vecinstrumentpanel");
+                        if (wakeLock == null) {
+                            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
+                        }
+
                         if (wakeLock != null && ! wakeLock.isHeld()) {
                             wakeLock.acquire();
                         }
                     }
 
                     if (wifiManager != null) {
-                        WifiManager.WifiLock wifiLock = wifiManager.createWifiLock(WifiManager.WIFI_MODE_FULL, TAG);
+                        if (wifiLock == null) {
+                            wifiLock = wifiManager.createWifiLock(WifiManager.WIFI_MODE_FULL, TAG);
+                        }
+                        
                         if (wifiLock != null && ! wifiLock.isHeld()) {
                             wifiLock.acquire();
                         }
